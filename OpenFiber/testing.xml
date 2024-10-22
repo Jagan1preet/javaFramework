@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="utils.SuitListener"></listener>
+    </listeners>
+    <test verbose="2" preserve-order="true" name="chromeTest">
+        <parameter name="browser" value="chrome"></parameter>
+        <parameter name="headless" value="false"></parameter>
+        <classes>
+
+            <class name="testCases.TestCase">
+                <methods>
+
+                    Cases for LogIn Page
+                    <include name="verifyLoginPage"/>
+                    <include name="verifyIncorrectLogin"/>
+                    <include name="verifyLogin"/>
+
+                    Cases for Admin Project and open project
+                    <include name="navigateToAdminProjectsRoutesPage"/>
+                    <include name="searchProjectById"/>
+                    <include name="openProject"/>
+
+                </methods>
+
+            </class>
+
+        </classes>
+
+    </test>
+</suite>
+
+
