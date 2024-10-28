@@ -9,21 +9,22 @@
         <parameter name="headless" value="false"></parameter>
         <classes>
 
-            <class name="testCases.TestCase">
+            LogIn Test Class
+            <class name="testCases.LogIn">
                 <methods>
-
-                    Cases for LogIn Page
                     <include name="verifyLoginPage"/>
-                    <include name="verifyIncorrectLogin"/>
                     <include name="verifyLogin"/>
+                </methods>
+            </class>
 
-                    Cases for Admin Project and open project
+            Admin Project Test Class to compare data between two excel files
+            <class name="testCases.AdminProject">
+                <methods>
                     <include name="navigateToAdminProjectsRoutesPage"/>
                     <include name="searchProjectById"/>
                     <include name="openProject"/>
-
+                    <include name="compareCMTFiles"/>
                 </methods>
-
             </class>
 
         </classes>

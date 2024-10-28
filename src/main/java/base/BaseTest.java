@@ -21,14 +21,17 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import org.yaml.snakeyaml.Yaml;
 
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.time.Duration;
-import java.util.Properties;
+import java.util.Map;
+
 
 public class BaseTest {
 
@@ -36,11 +39,16 @@ public class BaseTest {
     public static ExtentReports extent;
     public static ExtentSparkReporter sparkReporter;
     public static ExtentTest logger;
-    private Properties prop = new Properties();
+    private static String url;
+    private static Map<String, Object> credentials;
+
+
 
 
     @BeforeSuite
     public void beforeSuite() {
+
+
         sparkReporter = new ExtentSparkReporter(System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Ressult.html");
         extent = new ExtentReports();
         extent.attachReporter(sparkReporter);
@@ -76,14 +84,24 @@ public class BaseTest {
 
         sparkReporter.config().setJs(customJS);
 
-        try (FileInputStream input = new FileInputStream("config.properties")) {
-            prop.load(input);
-        } catch (IOException ex) {
-            System.err.println("Error reading config.properties file: " + ex.getMessage());
+        try (InputStream inputStream = BaseTest.class.getClassLoader().getResourceAsStream("config.yml")) {
+            if (inputStream == null) {
+                throw new FileNotFoundException("config.yml not found in the classpath");
+            }
+            Yaml yaml = new Yaml();
+            Map<String, Object> config = yaml.load(inputStream);
+
+
+
+            url = (String) config.get("url");
+            System.out.println("URL: " + url);
+
+            credentials = (Map<String, Object>) config.get("credentials");
+
+        } catch (IOException e) {
+            System.err.println("Error loading configuration: " + e.getMessage());
         }
-
     }
-
 
 
     @BeforeMethod
@@ -103,8 +121,8 @@ public class BaseTest {
         setupDriver(browser, isHeadless);
         driver.manage().window().maximize();
 
-//      URL from config file
-        driver.get(prop.getProperty("url"));
+//      URL from YAML file
+        driver.get(url);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
     }
@@ -171,7 +189,7 @@ public class BaseTest {
         driver.manage().window().maximize();
 
 //      URL from config file
-        driver.get(prop.getProperty("url"));
+        driver.get(url);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
     }
     public String captureScreenshot(String methodName) {
@@ -185,7 +203,7 @@ public class BaseTest {
         }
         return "screenshots/" + methodName + ".png";
     }
-
 }
+
 
 

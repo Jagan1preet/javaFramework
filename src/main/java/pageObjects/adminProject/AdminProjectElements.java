@@ -26,13 +26,22 @@ public interface AdminProjectElements {
 //  Click on 161070481
     String selectProject161070481 = "//div[contains(text(), '161070481')]" ;
 
+    // Open Project
+    String projectOpen = "//span[contains (text(),'Apri Progetto')]";
+
+// Click on Document Management
+    String documentManagement= "//span[@id='menuBarItem_7_Button_label']";
+
 //  Click to open the project
-    String openProject = "//span[@id='dijit_form_Button_281_label']";
+    String printManagement = "//span[@id='accordionPaneMenu_7_accordionPaneItem_5_ContentPane_button_title']";
 
-//  Click on Project Data
-    String data = "//span[@id='menuBarItem_1_Button_label']" ;
+//  Click on CMT Design + Built
+    String CMT = "//div[contains(text(), 'Estrai CMT Progettato + Realizzato')]";
 
-    String cable = "//span[contains(text(),'Cable Level')]";
+//  Click on Extract
+    String extract = "//input[@id='extract']";
 
+//  Click on Send button to download the Excel file
+    String sendButton = "//input[@id='btnSubmit']";
 
 }
